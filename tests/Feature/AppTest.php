@@ -21,7 +21,7 @@ class AppTest extends TestCase
             ]
         );
 
-        echo $response->json();
+        var_dump($response->json());
 
         $response->assertStatus(200);
     }
