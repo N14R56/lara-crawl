@@ -14,7 +14,12 @@ class Controller extends BaseController
     {
         $adapter = new Adapter($request);
 
-        $interactor = new Interactor($adapter->inputContract);
+        if ($adapter->validInputContract === true) {
+
+            $interactor = new Interactor($adapter->inputContract);
+
+            $adapter->setInteractorContract($interactor->interactorContract);
+        }
 
         return $adapter->laravelResponse();
     }

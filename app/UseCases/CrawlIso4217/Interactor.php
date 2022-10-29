@@ -7,16 +7,10 @@ use App\UseCases\CrawlIso4217\Contracts\InteractorContract;
 
 class Interactor
 {
-
-    private InteractorContract $interactorContract;
+    public InteractorContract $interactorContract;
 
     public function __construct(InputContract $inputContract)
     {
         
-    }
-
-    public function getInteractorContract()
-    {
-
     }
 }
