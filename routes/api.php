@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/crawl', [Controller::class, 'crawl']);
+Route::post('/crawl/iso-4217', [Controller::class, 'iso4217']);
