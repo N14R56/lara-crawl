@@ -4,14 +4,12 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
+use function PHPUnit\Framework\assertTrue;
+
 class AppTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_1()
+
+    public function test_1(): void
     {
         $response = $this->post(
             '/crawl/iso-4217',
@@ -20,21 +18,15 @@ class AppTest extends TestCase
             ]
         );
 
-        var_dump($response->json());
-
         $response->assertStatus(200);
     }
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_2()
+
+    public function test_2(): void
     {
         $response = $this->post(
             '/crawl/iso-4217',
             [
-                "code_list" => ["GBP", "GEL", "HKD"]
+                'code_list' => ['GBP', 'GEL', 'HKD']
             ]
         );
 
@@ -42,12 +34,8 @@ class AppTest extends TestCase
 
         $response->assertStatus(200);
     }
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_3()
+
+    public function test_3(): void
     {
         $response = $this->post(
             '/crawl/iso-4217',
@@ -56,16 +44,10 @@ class AppTest extends TestCase
             ]
         );
 
-        var_dump($response->json());
-
         $response->assertStatus(200);
     }
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_4()
+
+    public function test_4(): void
     {
         $response = $this->post(
             '/crawl/iso-4217',
@@ -73,8 +55,6 @@ class AppTest extends TestCase
                 'number_list' => [242, 324]
             ]
         );
-
-        var_dump($response->json());
 
         $response->assertStatus(200);
     }
