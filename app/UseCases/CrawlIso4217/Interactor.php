@@ -34,6 +34,59 @@ class Interactor
 
             }
         }
+        
+        $extractedTitles = [];
+          
+        foreach ($this->request() as $title) {
+            
+            $sub = substr($title->textContent, 40, 30);
+
+            $extractedTitles[] = $title->textContent.PHP_EOL;
+
+            if (isset($extractedTitles[1])) {
+
+                $codeFound = substr($title->textContent, 1, 3);
+
+                if ($codeFound === $code) {
+
+                    $numberFound = substr($title->textContent, 5, 3);
+
+                    $this->interactorContract->number = $numberFound;
+
+                    
+                    $decimalFound = substr($title->textContent, 9, 1);
+
+                    $this->interactorContract->decimal = $decimalFound;
+
+
+                    $currency = substr($title->textContent, 11, 19);
+
+                    $this->interactorContract->currency = $currency;
+
+
+                    $location = substr($title->textContent, 33, 9);
+                
+                    $this->interactorContract->currencyLocation[0] = $location;
+
+                    dd($this->interactorContract);
+
+
+                    echo '111111';
+
+                }
+                 
+                // dd($sub);
+
+                // dd(strlen($title->textContent));
+
+                // dd($title->textContent);
+
+            }
+        }
+        
+    }
+
+    public function request() {
 
         $client = new GuzzleHttpClient();
 
@@ -41,7 +94,6 @@ class Interactor
 
         $htmlString = (string) $response->getBody();
 
-        //add this line to suppress any warnings
         libxml_use_internal_errors(true);
 
         $doc = new DOMDocument();
@@ -50,21 +102,8 @@ class Interactor
         
         $xpath = new DOMXPath($doc);
 
-        $titles = $xpath->evaluate('//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr');
-        
-        $extractedTitles = [];
-          
-        foreach ($titles as $title) {
-            
-            $sub = substr($title->textContent, 40, 30);
-    
-            
-            $extractedTitles[] = $title->textContent.PHP_EOL;
-            
-            echo $title->textContent.PHP_EOL;
-            
-        }
-        
-        dd();
+        return $xpath->evaluate(
+            '//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr'
+        );
     }
 }
