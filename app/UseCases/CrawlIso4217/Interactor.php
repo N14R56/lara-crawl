@@ -50,7 +50,7 @@ class Interactor
         
         $xpath = new DOMXPath($doc);
 
-        $titles = $xpath->evaluate('//*[@id="mw-content-text"]/div[1]/table[3]/tbody');
+        $titles = $xpath->evaluate('//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr');
         
         $extractedTitles = [];
           
@@ -58,13 +58,13 @@ class Interactor
             
             $sub = substr($title->textContent, 40, 30);
     
-            dd($sub);
             
             $extractedTitles[] = $title->textContent.PHP_EOL;
-
+            
             echo $title->textContent.PHP_EOL;
-
+            
         }
-
+        
+        dd();
     }
 }
