@@ -10,17 +10,17 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    public function iso4217(Request $request): Response
+    public function iso4217(Request $request)
     {
         $adapter = new Adapter($request);
 
-        if ($adapter->validInputContract === true) {
+        $interactor = new Interactor($adapter->inputContract);
 
-            $interactor = new Interactor($adapter->inputContract);
+        // if ($adapter->validInputContract === true) {
 
-            $adapter->setInteractorContract($interactor->interactorContract);
-        }
+        //     $adapter->setInteractorContract($interactor->interactorContract);
+        // }
 
-        return $adapter->laravelResponse();
+        // return $adapter->laravelResponse();
     }
 }

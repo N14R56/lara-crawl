@@ -7,10 +7,10 @@ class InputContract
     /**
      * @var string[]
      */
-    public array $codeList;
+    public array $codes;
     /**
      * @var int[]
      */
-    public array $numberList;
+    public array $numbers;
     public bool $byCode;
 }

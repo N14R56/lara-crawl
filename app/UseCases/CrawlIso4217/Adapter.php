@@ -24,7 +24,7 @@ class Adapter
 
         if (isset($request->post()['code_list']) === true) {
 
-            $this->inputContract->codeList = $request->post()['code_list'];
+            $this->inputContract->codes = $request->post()['code_list'];
             $this->inputContract->byCode = true;
             $this->validInputContract = true;
 
@@ -32,7 +32,7 @@ class Adapter
 
         if (isset($request->post()['number_list']) === true) {
 
-            $this->inputContract->numberList = $request->post()['number_list'];
+            $this->inputContract->numbers = $request->post()['number_list'];
             $this->inputContract->byCode = false;
             $this->validInputContract = true;
 
