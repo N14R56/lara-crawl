@@ -27,7 +27,6 @@ class Adapter
             $this->inputContract->codes = $request->post()['code_list'];
             $this->inputContract->byCode = true;
             $this->validInputContract = true;
-
         }
 
         if (isset($request->post()['number_list']) === true) {
@@ -35,15 +34,13 @@ class Adapter
             $this->inputContract->numbers = $request->post()['number_list'];
             $this->inputContract->byCode = false;
             $this->validInputContract = true;
-
         }
     }
 
     public function setinteractorContract(
         InteractorContract $interactorContract
-    ): void
-    {
-       $this->interactorContract = $interactorContract; 
+    ): void {
+        $this->interactorContract = $interactorContract;
     }
 
     public function laravelResponse(): Response
@@ -56,71 +53,41 @@ class Adapter
         }
 
         if (isset($this->interactorContract)) {
-            // return response(
-            //     [
-            //         0 => [
-            //             "code" => "GBP",
-            //             "number" => 826,  
-            //             "decimal" => 2,  
-            //             "currency" => "Libra Esterlina",  
-            //             "currency_locations" => [
-            //                 0 => [
-            //                     "location" => "Reino Unido",  
-            //                     "icon" => "https://upload.wikimedia.org/
-            //                     wikipedia/commons/thumb/a/ae/
-            //                     Flag_of_the_United_Kingdom.svg/
-            //                     22px-Flag_of_the_United_Kingdom.svg.png"
-            //                 ],
-            //                 1 => [
-            //                     "location" => "Ilha de Man",  
-            //                     "icon" => ""
-            //                 ],
-            //                 2 => [
-            //                     "location" => "Guernesey",  
-            //                     "icon" => "" 
-            //                 ],
-            //                 3 => [
-            //                     "location" => "Jersey",  
-            //                     "icon" => ""  
-            //                 ]
-            //             ]
-            //         ]
-            //     ],
-            //     200
-            // );
 
-            // dd($this->interactorContract);
+            $array = [];
 
-            return response(
-                [
-                    0 => [
-                        "code" => $this->interactorContract->code,
-                        "number" => $this->interactorContract->number,  
-                        "decimal" => $this->interactorContract->decimal,  
-                        "currency" => $this->interactorContract->currency,  
-                        "currency_locations" => [
-                            0 => [
-                                "location" => $this->interactorContract->currencyLocation[0],  
-                                "icon" => "https://upload.wikimedia.org/
+            foreach ($this->interactorContract->interactorContracts as $key => $contract) {
+                $array[$key] = [
+                    "code" => $contract->code,
+                    "number" => $contract->number,
+                    "decimal" => $contract->decimal,
+                    "currency" => $contract->currency,
+                    "currency_locations" => [
+                        0 => [
+                            "location" => $contract->currencyLocation[0],
+                            "icon" => "https://upload.wikimedia.org/
                                 wikipedia/commons/thumb/a/ae/
                                 Flag_of_the_United_Kingdom.svg/
                                 22px-Flag_of_the_United_Kingdom.svg.png"
-                            ],
-                            1 => [
-                                "location" => "Ilha de Man",  
-                                "icon" => ""
-                            ],
-                            2 => [
-                                "location" => "Guernesey",  
-                                "icon" => "" 
-                            ],
-                            3 => [
-                                "location" => "Jersey",  
-                                "icon" => ""  
-                            ]
+                        ],
+                        1 => [
+                            "location" => "Ilha de Man",
+                            "icon" => ""
+                        ],
+                        2 => [
+                            "location" => "Guernesey",
+                            "icon" => ""
+                        ],
+                        3 => [
+                            "location" => "Jersey",
+                            "icon" => ""
                         ]
                     ]
-                ],
+                ];
+            }
+
+            return response(
+                $array,
                 200
             );
         }
