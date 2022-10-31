@@ -43,7 +43,7 @@ class Adapter
         InteractorContract $interactorContract
     ): void
     {
-       $this->$interactorContract = $interactorContract; 
+       $this->interactorContract = $interactorContract; 
     }
 
     public function laravelResponse(): Response
@@ -56,16 +56,51 @@ class Adapter
         }
 
         if (isset($this->interactorContract)) {
+            // return response(
+            //     [
+            //         0 => [
+            //             "code" => "GBP",
+            //             "number" => 826,  
+            //             "decimal" => 2,  
+            //             "currency" => "Libra Esterlina",  
+            //             "currency_locations" => [
+            //                 0 => [
+            //                     "location" => "Reino Unido",  
+            //                     "icon" => "https://upload.wikimedia.org/
+            //                     wikipedia/commons/thumb/a/ae/
+            //                     Flag_of_the_United_Kingdom.svg/
+            //                     22px-Flag_of_the_United_Kingdom.svg.png"
+            //                 ],
+            //                 1 => [
+            //                     "location" => "Ilha de Man",  
+            //                     "icon" => ""
+            //                 ],
+            //                 2 => [
+            //                     "location" => "Guernesey",  
+            //                     "icon" => "" 
+            //                 ],
+            //                 3 => [
+            //                     "location" => "Jersey",  
+            //                     "icon" => ""  
+            //                 ]
+            //             ]
+            //         ]
+            //     ],
+            //     200
+            // );
+
+            // dd($this->interactorContract);
+
             return response(
                 [
                     0 => [
-                        "code" => "GBP",
-                        "number" => 826,  
-                        "decimal" => 2,  
-                        "currency" => "Libra Esterlina",  
+                        "code" => $this->interactorContract->code,
+                        "number" => $this->interactorContract->number,  
+                        "decimal" => $this->interactorContract->decimal,  
+                        "currency" => $this->interactorContract->currency,  
                         "currency_locations" => [
                             0 => [
-                                "location" => "Reino Unido",  
+                                "location" => $this->interactorContract->currencyLocation[0],  
                                 "icon" => "https://upload.wikimedia.org/
                                 wikipedia/commons/thumb/a/ae/
                                 Flag_of_the_United_Kingdom.svg/

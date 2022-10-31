@@ -8,6 +8,14 @@ class AppTest extends TestCase
 {
     public function test_1(): void
     {
+        // {
+        //     "code_list" : [
+        //         "GBP",
+        //         "GEL",
+        //         "HKD"
+        //     ]
+        // }
+
         $response = $this->post(
             '/crawl/iso-4217',
             [

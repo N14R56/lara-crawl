@@ -5,6 +5,7 @@ namespace App\UseCases\CrawlIso4217;
 use App\UseCases\CrawlIso4217\Contracts\InputContract;
 use App\UseCases\CrawlIso4217\Contracts\InteractorContract;
 use DOMDocument;
+use DOMNodeList;
 use DOMXPath;
 use Goutte\Client;
 use GuzzleHttp\Client as GuzzleHttpClient;
@@ -15,28 +16,35 @@ class Interactor
     public InteractorContract $interactorContract;
 
     public function __construct(InputContract $inputContract)
+    {     
+        $this->analyzeReq();
+    }
+
+    public function request(): DOMNodeList
     {
-        $this->interactorContract = new InteractorContract;        
+        $client = new GuzzleHttpClient();
 
-        if ($inputContract->byCode === true) {
+        $response = $client->get('https://pt.wikipedia.org/wiki/ISO_4217');
 
-            foreach ($inputContract->codes as $code) {
-                
-                $this->interactorContract->code = $code;
+        $htmlString = (string) $response->getBody();
 
-            }
-        }
-        if ($inputContract->byCode === false) {
+        libxml_use_internal_errors(true);
 
-            foreach ($inputContract->numbers as $number) {
-                
-                $this->interactorContract->number = $number;
+        $doc = new DOMDocument();
 
-            }
-        }
+        $doc->loadHTML($htmlString);
         
-        $extractedTitles = [];
-          
+        $xpath = new DOMXPath($doc);
+
+        return $xpath->evaluate(
+            '//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr'
+        );
+    }
+
+    public function analyzeReq(): void
+    {
+        $this->interactorContract = new InteractorContract;
+
         foreach ($this->request() as $title) {
             
             $sub = substr($title->textContent, 40, 30);
@@ -47,7 +55,12 @@ class Interactor
 
                 $codeFound = substr($title->textContent, 1, 3);
 
-                if ($codeFound === $code) {
+                if ($codeFound === 'HKD') {
+                    
+                    $codeFound = substr($title->textContent, 1, 3);
+
+                    $this->interactorContract->code = $codeFound;
+
 
                     $numberFound = substr($title->textContent, 5, 3);
 
@@ -67,43 +80,10 @@ class Interactor
                     $location = substr($title->textContent, 33, 9);
                 
                     $this->interactorContract->currencyLocation[0] = $location;
-
-                    dd($this->interactorContract);
-
-
-                    echo '111111';
-
                 }
-                 
-                // dd($sub);
-
-                // dd(strlen($title->textContent));
-
-                // dd($title->textContent);
-
             }
         }
-        
-    }
 
-    public function request() {
-
-        $client = new GuzzleHttpClient();
-
-        $response = $client->get('https://pt.wikipedia.org/wiki/ISO_4217');
-
-        $htmlString = (string) $response->getBody();
-
-        libxml_use_internal_errors(true);
-
-        $doc = new DOMDocument();
-
-        $doc->loadHTML($htmlString);
-        
-        $xpath = new DOMXPath($doc);
-
-        return $xpath->evaluate(
-            '//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr'
-        );
+        // dd($this->interactorContract);
     }
 }
