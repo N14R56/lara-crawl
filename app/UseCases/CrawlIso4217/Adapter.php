@@ -2,6 +2,7 @@
 
 namespace App\UseCases\CrawlIso4217;
 
+use App\UseCases\CrawlIso4217\ApplicationEntities\ResponseFormatter;
 use App\UseCases\CrawlIso4217\Contracts\InputContract;
 use App\UseCases\CrawlIso4217\Contracts\InteractorContract;
 use Illuminate\Http\Request;
@@ -54,40 +55,10 @@ class Adapter
 
         if (isset($this->interactorContract)) {
 
-            $array = [];
-
-            foreach ($this->interactorContract->interactorContracts as $key => $contract) {
-                $array[$key] = [
-                    "code" => $contract->code,
-                    "number" => $contract->number,
-                    "decimal" => $contract->decimal,
-                    "currency" => $contract->currency,
-                    "currency_locations" => [
-                        0 => [
-                            "location" => $contract->currencyLocation[0],
-                            "icon" => "https://upload.wikimedia.org/
-                                wikipedia/commons/thumb/a/ae/
-                                Flag_of_the_United_Kingdom.svg/
-                                22px-Flag_of_the_United_Kingdom.svg.png"
-                        ],
-                        1 => [
-                            "location" => "Ilha de Man",
-                            "icon" => ""
-                        ],
-                        2 => [
-                            "location" => "Guernesey",
-                            "icon" => ""
-                        ],
-                        3 => [
-                            "location" => "Jersey",
-                            "icon" => ""
-                        ]
-                    ]
-                ];
-            }
-
             return response(
-                $array,
+                ResponseFormatter::format(
+                    $this->interactorContract->interactorContracts
+                ),
                 200
             );
         }
