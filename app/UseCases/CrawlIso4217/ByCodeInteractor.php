@@ -12,28 +12,26 @@ class ByCodeInteractor
 
     public function __construct(string $code)
     {     
-        $this->analyzeReq($code);
-    }
-
-    public function analyzeReq(string $code): void
-    {
         $this->interactorContract = new ByCodeIntContract;
 
         $domNodeList = DOMNodeFetcher::fetch(
             'https://pt.wikipedia.org/wiki/ISO_4217',
-            '//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr'
+            '//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr/td'
         );
 
+        // dd($domNodeList);
         
         foreach ($domNodeList as $node) {
-            
+
+            var_dump($node->textContent);
+
             $i[] = $node->textContent;
             
             if (isset($i[1])) {
                 
                 $codeFound = substr($node->textContent, 1, 3);
                 
-                if ($codeFound === 'HKD') {
+                if ($codeFound === $code) {
                     
                     $this->interactorContract->code = $codeFound;
                     // dd($this->interactorContract->code);
@@ -59,7 +57,6 @@ class ByCodeInteractor
                 }
             }
         }
-
         // dd($this->interactorContract);
     }
 }
