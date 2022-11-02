@@ -15,6 +15,7 @@ class ResponseFormatter
         $array = [];
 
         foreach ($contracts as $key => $contract) {
+            
             $array[$key] = [
                 "code" => $contract->code,
                 "number" => $contract->number,
