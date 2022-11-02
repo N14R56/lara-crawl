@@ -3,6 +3,7 @@
 namespace App\UseCases\CrawlIso4217;
 
 use App\UseCases\CrawlIso4217\ApplicationEntities\DOMNodeFetcher;
+use App\UseCases\CrawlIso4217\DomainEntities\NodeExtractor;
 use App\UseCases\CrawlIso4217\Contracts\ByCodeIntContract;
 
 
@@ -19,43 +20,24 @@ class ByCodeInteractor
             '//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr/td'
         );
 
-        $i = 0;
-        
-        foreach ($domNodeList as $key => $node) {
-            
-            if ($i === 0) {
-                
-                $codeFound = $node->textContent;
+        $nodeExtractor = new NodeExtractor(
+            $domNodeList,
+            $code
+        );
 
-                if ($codeFound === $code) {
+        $this->interactorContract
+        ->code = $nodeExtractor->code;
 
-                    $this->interactorContract->code = $codeFound;
+        $this->interactorContract
+        ->number = $nodeExtractor->number;
 
+        $this->interactorContract
+        ->decimal = $nodeExtractor->decimal;
 
-                    $numberFound = $domNodeList[$key + 1]->textContent;
-                    $this->interactorContract->number = $numberFound;
+        $this->interactorContract
+        ->currency = $nodeExtractor->currency;
 
-
-                    $decimalFound = $domNodeList[$key + 2]->textContent;
-                    $this->interactorContract->decimal = $decimalFound;
-
-
-                    $currency = $domNodeList[$key + 3]->textContent;
-                    $this->interactorContract->currency = $currency;
-
-
-                    $location = $domNodeList[$key + 4]->textContent;
-                    $this->interactorContract->currencyLocation[0] = $location;
-                }
-            }
-            
-            $i++;
-            
-            if ($i === 5) {
-                
-                $i = 0;
-                
-            }
-        }
+        $this->interactorContract
+        ->currencyLocations = $nodeExtractor->currencyLocations;
     }
 }
