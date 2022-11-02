@@ -2,7 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\UseCases\CrawlIso4217\ByCodeInteractor;
+use App\UseCases\CrawlIso4217\Contracts\ByCodeIntContract;
+use App\UseCases\CrawlIso4217\Contracts\InputContract;
+use App\UseCases\CrawlIso4217\Interactor;
 use Tests\TestCase;
+
+use function PHPUnit\Framework\assertTrue;
 
 class AppTest extends TestCase
 {
@@ -23,8 +29,6 @@ class AppTest extends TestCase
             ]
         );
 
-        var_dump($response->json());
-
         $response->assertStatus(200);
     }
 
@@ -38,5 +42,26 @@ class AppTest extends TestCase
         );
 
         $response->assertStatus(200);
+    }
+
+    public function test_3(): void
+    {
+        $interactor = new ByCodeInteractor('GBP');
+
+        $contract = new ByCodeIntContract;
+
+        $contract->code = 'GBP';
+
+        $contract->number = 826;
+
+        $contract->decimal = 2;
+
+        $contract->currency = 'Libra Esterlina';
+        
+        $contract->currencyLocations[0] = 'Reino Unido, Ilha de Man, Guernesey, Jersey';
+
+        assertTrue(
+            $interactor->interactorContract === $contract
+        );
     }
 }
