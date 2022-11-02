@@ -64,4 +64,25 @@ class AppTest extends TestCase
             $interactor->interactorContract === $contract
         );
     }
+
+    public function test_4(): void
+    {
+        $interactor = new ByCodeInteractor('GEL');
+
+        $contract = new ByCodeIntContract;
+
+        $contract->code = 'GEL';
+
+        $contract->number = 981;
+
+        $contract->decimal = 2;
+
+        $contract->currency = 'Lari';
+        
+        $contract->currencyLocations[0] = 'Geórgia';
+
+        assertTrue(
+            $interactor->interactorContract === $contract
+        );
+    }
 }
