@@ -48,20 +48,30 @@ class AppTest extends TestCase
     {
         $interactor = new ByCodeInteractor('GBP');
 
-        $contract = new ByCodeIntContract;
+        $contractMock = new ByCodeIntContract;
 
-        $contract->code = 'GBP';
+        $contractMock->code = 'GBP';
 
-        $contract->number = 826;
+        $contractMock->number = 826;
 
-        $contract->decimal = 2;
+        $contractMock->decimal = 2;
 
-        $contract->currency = 'Libra Esterlina';
+        $contractMock->currency = 'Libra Esterlina';
         
-        $contract->currencyLocations[0] = 'Reino Unido, Ilha de Man, Guernesey, Jersey';
+        $contractMock
+        ->currencyLocations[0] = 'Reino Unido';
+
+        $contractMock
+        ->currencyLocations[1] = 'Ilha de Man';
+
+        $contractMock
+        ->currencyLocations[2] = 'Guernesey';
+
+        $contractMock
+        ->currencyLocations[3] = 'Jersey';
 
         assertTrue(
-            $interactor->interactorContract === $contract
+            $interactor->interactorContract == $contractMock
         );
     }
 

@@ -21,13 +21,32 @@ class ResponseFormatter
                 "number" => $contract->number,
                 "decimal" => $contract->decimal,
                 "currency" => $contract->currency,
-                "currency_locations" => [
-                    0 => [
-                        "location" => $contract->currencyLocations[0],
-                        "icon" => ""
-                    ]
-                ]
+                "currency_locations" => self::formatCurrencyLocations(
+                    $contract->currencyLocations
+                )
             ];
+        }
+
+        return $array;
+    }
+
+    public static function formatCurrencyLocations(
+        array $currencyLocations
+    ): array
+    {
+        $array = [];
+
+        foreach ($currencyLocations as $key => $location) {
+
+            $array2 = [
+                "location" => $location,
+                "icon" => ""
+            ];
+
+            array_push(
+                $array,
+                $array2
+            );
         }
 
         return $array;

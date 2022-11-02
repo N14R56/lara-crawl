@@ -41,12 +41,9 @@ class NodeExtractor
                     $currency = $domNodeList[$key + 3]->textContent;
                     $this->currency = $currency;
 
-
-                    $location = $domNodeList[$key + 4]->textContent;
-
-                    // dd($location);
+                    $locations = $domNodeList[$key + 4]->textContent;
+                    $this->setCurrencyLocations($locations);
                     
-                    $this->currencyLocations[0] = $location;
                 }
             }
             
@@ -58,5 +55,42 @@ class NodeExtractor
                 
             }
         }
+    }
+    
+    private function setCurrencyLocations(string $locations): void
+    {
+        $locations = $this->sanitize($locations);
+        
+        $locArray = explode(', ', $locations);
+
+        foreach ($locArray as $key => $loc) {
+
+            $this->currencyLocations[$key] = $loc;
+
+        }
+    }
+
+    private function sanitize(string $locations): string
+    {
+        $locations = substr(
+            $locations,
+            2
+        );
+
+        $locations = rtrim(
+            $locations
+        );
+
+        $locations = str_replace(
+            "\r\n",
+            "",
+            $locations
+        );
+
+        return str_replace(
+            "\n",
+            "",
+            $locations
+        );
     }
 }
