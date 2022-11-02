@@ -22,7 +22,7 @@ class ResponseFormatter
                 "currency" => $contract->currency,
                 "currency_locations" => [
                     0 => [
-                        "location" => $contract->currencyLocation[0],
+                        "location" => $contract->currencyLocations[0],
                         "icon" => "https://upload.wikimedia.org/
                             wikipedia/commons/thumb/a/ae/
                             Flag_of_the_United_Kingdom.svg/
