@@ -24,21 +24,6 @@ class ResponseFormatter
                 "currency_locations" => [
                     0 => [
                         "location" => $contract->currencyLocations[0],
-                        "icon" => "https://upload.wikimedia.org/
-                            wikipedia/commons/thumb/a/ae/
-                            Flag_of_the_United_Kingdom.svg/
-                            22px-Flag_of_the_United_Kingdom.svg.png"
-                    ],
-                    1 => [
-                        "location" => "Ilha de Man",
-                        "icon" => ""
-                    ],
-                    2 => [
-                        "location" => "Guernesey",
-                        "icon" => ""
-                    ],
-                    3 => [
-                        "location" => "Jersey",
                         "icon" => ""
                     ]
                 ]
