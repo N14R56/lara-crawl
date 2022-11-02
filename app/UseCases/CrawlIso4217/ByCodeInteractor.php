@@ -19,44 +19,43 @@ class ByCodeInteractor
             '//*[@id="mw-content-text"]/div[1]/table[3]/tbody/tr/td'
         );
 
-        // dd($domNodeList);
+        $i = 0;
         
-        foreach ($domNodeList as $node) {
-
-            var_dump($node->textContent);
-
-            $i[] = $node->textContent;
+        foreach ($domNodeList as $key => $node) {
             
-            if (isset($i[1])) {
+            if ($i === 0) {
                 
-                $codeFound = substr($node->textContent, 1, 3);
-                
+                $codeFound = $node->textContent;
+
                 if ($codeFound === $code) {
-                    
+
                     $this->interactorContract->code = $codeFound;
-                    // dd($this->interactorContract->code);
 
-                    $numberFound = substr($node->textContent, 5, 3);
 
+                    $numberFound = $domNodeList[$key + 1]->textContent;
                     $this->interactorContract->number = $numberFound;
 
-                    
-                    $decimalFound = substr($node->textContent, 9, 1);
 
+                    $decimalFound = $domNodeList[$key + 2]->textContent;
                     $this->interactorContract->decimal = $decimalFound;
 
 
-                    $currency = substr($node->textContent, 11, 19);
-
+                    $currency = $domNodeList[$key + 3]->textContent;
                     $this->interactorContract->currency = $currency;
 
 
-                    $location = substr($node->textContent, 33, 9);
-                
+                    $location = $domNodeList[$key + 4]->textContent;
                     $this->interactorContract->currencyLocation[0] = $location;
                 }
             }
+            
+            $i++;
+            
+            if ($i === 5) {
+                
+                $i = 0;
+                
+            }
         }
-        // dd($this->interactorContract);
     }
 }
