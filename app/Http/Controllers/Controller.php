@@ -13,10 +13,10 @@ class Controller extends BaseController
     public function iso4217(Request $request): Response
     {
         $adapter = new Adapter($request);
-
-        $interactor = new Interactor($adapter->inputContract);
-
+        
         if ($adapter->validInputContract === true) {
+
+            $interactor = new Interactor($adapter->inputContract);
 
             $adapter->setInteractorContract($interactor->interactorContract);
         }
