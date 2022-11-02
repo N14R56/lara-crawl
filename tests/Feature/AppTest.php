@@ -79,20 +79,21 @@ class AppTest extends TestCase
     {
         $interactor = new ByCodeInteractor('GEL');
 
-        $contract = new ByCodeIntContract;
+        $contractMock = new ByCodeIntContract;
 
-        $contract->code = 'GEL';
+        $contractMock->code = 'GEL';
 
-        $contract->number = 981;
+        $contractMock->number = 981;
 
-        $contract->decimal = 2;
+        $contractMock->decimal = 2;
 
-        $contract->currency = 'Lari';
+        $contractMock->currency = 'Lari';
         
-        $contract->currencyLocations[0] = 'Geórgia';
+        $contractMock
+        ->currencyLocations[0] = 'Geórgia';
 
         assertTrue(
-            $interactor->interactorContract === $contract
+            $interactor->interactorContract == $contractMock
         );
     }
 }
