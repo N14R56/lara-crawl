@@ -9,4 +9,5 @@ class ByCodeIntContract
     public int $decimal;
     public string $currency;
     public array $currencyLocations;
+    public array $icons;
 }

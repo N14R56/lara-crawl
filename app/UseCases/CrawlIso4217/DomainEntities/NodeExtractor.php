@@ -59,11 +59,6 @@ class NodeExtractor
                 
             }
         }
-
-        dd(
-            $this->icons,
-            $this->currencyLocations
-        );
     }
     
     private function setCurrencyLocations(
@@ -82,32 +77,42 @@ class NodeExtractor
 
                 if ($child->tagName === 'a') {
 
-                    $this->currencyLocations[$i] = $child->textContent;
+                    $this->currencyLocations[$i] = $this->sanitize($child->textContent);
 
                     if (isset($icon)) {
+
                         $this->icons[$i] = $icon;
+
                         unset($icon);
+
                     } else {
+
                         $this->icons[$i] = '';
+
                     }
+
                     $i++;
                 }
             }
         }
+    }
 
-        // $locations = $this->sanitize($locations);
-        
-        // $locArray = explode(', ', $locations);
+    public function icon(
+        DOMNamedNodeMap $attributes
+    ): string
+    {
+        foreach($attributes as $key => $value) {
 
+            if ($key === 'src') {
+
+                return 'https:' . $value->value;
+
+            }   
+        }
     }
 
     private function sanitize(string $locations): string
     {
-        $locations = substr(
-            $locations,
-            2
-        );
-
         $locations = rtrim(
             $locations
         );
@@ -123,19 +128,5 @@ class NodeExtractor
             "",
             $locations
         );
-    }
-
-    public function icon(
-        DOMNamedNodeMap $attributes
-    ): string
-    {
-        foreach($attributes as $key => $value) {
-
-            if ($key === 'src') {
-
-                return 'https:' . $value->value;
-
-            }   
-        }
     }
 }

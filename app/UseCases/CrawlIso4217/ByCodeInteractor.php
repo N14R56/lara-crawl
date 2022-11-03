@@ -39,5 +39,8 @@ class ByCodeInteractor
 
         $this->interactorContract
         ->currencyLocations = $nodeExtractor->currencyLocations;
+
+        $this->interactorContract
+        ->icons = $nodeExtractor->icons;
     }
 }

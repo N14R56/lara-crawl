@@ -22,7 +22,8 @@ class ResponseFormatter
                 "decimal" => $contract->decimal,
                 "currency" => $contract->currency,
                 "currency_locations" => self::formatCurrencyLocations(
-                    $contract->currencyLocations
+                    $contract->currencyLocations,
+                    $contract->icons
                 )
             ];
         }
@@ -31,7 +32,8 @@ class ResponseFormatter
     }
 
     public static function formatCurrencyLocations(
-        array $currencyLocations
+        array $currencyLocations,
+        array $icons
     ): array
     {
         $array = [];
@@ -40,7 +42,7 @@ class ResponseFormatter
 
             $array2 = [
                 "location" => $location,
-                "icon" => ""
+                "icon" => $icons[$key]
             ];
 
             array_push(
