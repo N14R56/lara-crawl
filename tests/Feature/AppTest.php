@@ -32,68 +32,68 @@ class AppTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_2(): void
-    {
-        $response = $this->post(
-            '/crawl/iso-4217',
-            [
-                'number_list' => [242, 324]
-            ]
-        );
+    // public function test_2(): void
+    // {
+    //     $response = $this->post(
+    //         '/crawl/iso-4217',
+    //         [
+    //             'number_list' => [242, 324]
+    //         ]
+    //     );
 
-        $response->assertStatus(200);
-    }
+    //     $response->assertStatus(200);
+    // }
 
-    public function test_3(): void
-    {
-        $interactor = new ByCodeInteractor('GBP');
+    // public function test_3(): void
+    // {
+    //     $interactor = new ByCodeInteractor('GBP');
 
-        $contractMock = new ByCodeIntContract;
+    //     $contractMock = new ByCodeIntContract;
 
-        $contractMock->code = 'GBP';
+    //     $contractMock->code = 'GBP';
 
-        $contractMock->number = 826;
+    //     $contractMock->number = 826;
 
-        $contractMock->decimal = 2;
+    //     $contractMock->decimal = 2;
 
-        $contractMock->currency = 'Libra Esterlina';
+    //     $contractMock->currency = 'Libra Esterlina';
         
-        $contractMock
-        ->currencyLocations[0] = 'Reino Unido';
+    //     $contractMock
+    //     ->currencyLocations[0] = 'Reino Unido';
 
-        $contractMock
-        ->currencyLocations[1] = 'Ilha de Man';
+    //     $contractMock
+    //     ->currencyLocations[1] = 'Ilha de Man';
 
-        $contractMock
-        ->currencyLocations[2] = 'Guernesey';
+    //     $contractMock
+    //     ->currencyLocations[2] = 'Guernesey';
 
-        $contractMock
-        ->currencyLocations[3] = 'Jersey';
+    //     $contractMock
+    //     ->currencyLocations[3] = 'Jersey';
 
-        assertTrue(
-            $interactor->interactorContract == $contractMock
-        );
-    }
+    //     assertTrue(
+    //         $interactor->interactorContract == $contractMock
+    //     );
+    // }
 
-    public function test_4(): void
-    {
-        $interactor = new ByCodeInteractor('GEL');
+    // public function test_4(): void
+    // {
+    //     $interactor = new ByCodeInteractor('GEL');
 
-        $contractMock = new ByCodeIntContract;
+    //     $contractMock = new ByCodeIntContract;
 
-        $contractMock->code = 'GEL';
+    //     $contractMock->code = 'GEL';
 
-        $contractMock->number = 981;
+    //     $contractMock->number = 981;
 
-        $contractMock->decimal = 2;
+    //     $contractMock->decimal = 2;
 
-        $contractMock->currency = 'Lari';
+    //     $contractMock->currency = 'Lari';
         
-        $contractMock
-        ->currencyLocations[0] = 'Geórgia';
+    //     $contractMock
+    //     ->currencyLocations[0] = 'Geórgia';
 
-        assertTrue(
-            $interactor->interactorContract == $contractMock
-        );
-    }
+    //     assertTrue(
+    //         $interactor->interactorContract == $contractMock
+    //     );
+    // }
 }

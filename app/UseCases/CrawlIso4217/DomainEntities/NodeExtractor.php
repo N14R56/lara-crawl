@@ -2,6 +2,8 @@
 
 namespace App\UseCases\CrawlIso4217\DomainEntities;
 
+use DOMElement;
+use DOMNamedNodeMap;
 use DOMNodeList;
 
 class NodeExtractor
@@ -11,12 +13,14 @@ class NodeExtractor
     public int $decimal;
     public string $currency;
     public array $currencyLocations;
+    public array $icons;
 
     public function __construct(
         DOMNodeList $domNodeList,
         string $code
     )
     {
+
         $i = 0;
         
         foreach ($domNodeList as $key => $node) {
@@ -41,9 +45,9 @@ class NodeExtractor
                     $currency = $domNodeList[$key + 3]->textContent;
                     $this->currency = $currency;
 
-                    $locations = $domNodeList[$key + 4]->textContent;
-                    $this->setCurrencyLocations($locations);
-                    
+                    $this->setCurrencyLocations(
+                        $domNodeList[$key + 4]
+                    );
                 }
             }
             
@@ -55,19 +59,46 @@ class NodeExtractor
                 
             }
         }
+
+        dd(
+            $this->icons,
+            $this->currencyLocations
+        );
     }
     
-    private function setCurrencyLocations(string $locations): void
+    private function setCurrencyLocations(
+        DOMElement $element
+    ): void
     {
-        $locations = $this->sanitize($locations);
-        
-        $locArray = explode(', ', $locations);
+        $i = 0;
+        foreach($element->childNodes as $k => $child) {
 
-        foreach ($locArray as $key => $loc) {
+            if (isset($child->tagName)) {
 
-            $this->currencyLocations[$key] = $loc;
+                if ($child->tagName === 'img') {
+                    
+                    $icon = $this->icon($child->attributes);
+                }
 
+                if ($child->tagName === 'a') {
+
+                    $this->currencyLocations[$i] = $child->textContent;
+
+                    if (isset($icon)) {
+                        $this->icons[$i] = $icon;
+                        unset($icon);
+                    } else {
+                        $this->icons[$i] = '';
+                    }
+                    $i++;
+                }
+            }
         }
+
+        // $locations = $this->sanitize($locations);
+        
+        // $locArray = explode(', ', $locations);
+
     }
 
     private function sanitize(string $locations): string
@@ -92,5 +123,19 @@ class NodeExtractor
             "",
             $locations
         );
+    }
+
+    public function icon(
+        DOMNamedNodeMap $attributes
+    ): string
+    {
+        foreach($attributes as $key => $value) {
+
+            if ($key === 'src') {
+
+                return 'https:' . $value->value;
+
+            }   
+        }
     }
 }
