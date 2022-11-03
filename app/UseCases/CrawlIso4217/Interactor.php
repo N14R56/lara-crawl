@@ -25,5 +25,16 @@ class Interactor
                     = $byCodeInteractor->interactorContract;
             }
         }
+
+        if ($inputContract->byCode === false) {
+
+            foreach ($inputContract->numbers as $key => $number) {
+
+                $byNumberInteractor = new ByNumberInteractor($number);
+
+                $this->interactorContract->interactorContracts[$key] 
+                    = $byNumberInteractor->interactorContract;
+            }
+        }
     }
 }
